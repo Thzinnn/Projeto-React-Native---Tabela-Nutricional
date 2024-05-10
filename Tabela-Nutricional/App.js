@@ -1,15 +1,46 @@
 import { StatusBar } from 'expo-status-bar';
+import { NavigationContainer } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StyleSheet, Text, View, Image, ImageBackground} from 'react-native';
-import Header from './components/Header';
+import Home from './Screen/Home'
+
+const Stack = createNativeStackNavigator()
+const Tab = createBottomTabNavigator()
 
 
+const MainNavigator = () => {
+  return(
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Nutricional Table"
+        component={Home}
+        options={{
+          headerShown: false
+        }}
+      />
+
+    </Stack.Navigator>
+  )
+}
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Header/>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+    <Tab.Navigator screenOptions={{
+      headerStyle: { backgroundColor: '#F2C159'},
+      headerTitleStyle: { color: "#FFF" },
+    }}>
+
+    <Tab.Screen
+      name="Home"
+      component={MainNavigator}
+      options={{
+        headerShown: false
+      }}
+    />
+    </Tab.Navigator>
+    </NavigationContainer>
   );
 }
 
