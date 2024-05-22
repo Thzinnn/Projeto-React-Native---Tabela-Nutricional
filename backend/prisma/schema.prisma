@@ -1,0 +1,19 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model comida {
+  nome               String @db.Text
+  calorias           Int
+  gorduras_saturadas Int    @map("gorduras-saturadas")
+  gorduras_trans     Int    @map("gorduras-trans")
+  carboidratos       Int
+  proteinas          Int
+  sodio              Int
+  id                 Int    @id @default(autoincrement())
+}

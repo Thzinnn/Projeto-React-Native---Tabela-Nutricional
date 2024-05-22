@@ -1,0 +1,18 @@
+import express from 'express'
+import { PORT, HOST } from './config'
+import cors from cors
+
+const app = express
+
+app.use(cors({
+    origin: ['http://localhost:3000', 'http://localhost:8081', 'http://meusite.com'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+  }))
+
+app.use(express.json())
+
+
+app.listen(PORT, () => {
+    console.log(`Servidor rodando em ${HOST}:${PORT}`);
+})

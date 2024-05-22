@@ -7,7 +7,7 @@ const Body = () => {
                 <ImageBackground 
                     source={require('../assets/image-background.png')}
                         style={styles.bg}
-                >
+                > 
 
                 </ImageBackground>
             </View>
