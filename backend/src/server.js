@@ -1,8 +1,9 @@
 import express from 'express'
-import { PORT, HOST } from './config'
-import cors from cors
+import { PORT, HOST } from './config.js'
+import comidaRouter from './routers/comidaRouter.js'
+import cors from 'cors'
 
-const app = express
+const app = express()
 
 app.use(cors({
     origin: ['http://localhost:3000', 'http://localhost:8081', 'http://meusite.com'],
@@ -12,6 +13,7 @@ app.use(cors({
 
 app.use(express.json())
 
+app.use('/comida', comidaRouter)
 
 app.listen(PORT, () => {
     console.log(`Servidor rodando em ${HOST}:${PORT}`);

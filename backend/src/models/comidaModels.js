@@ -57,7 +57,7 @@ const getById = async (id) => {
 
 const create = async (comida) => {
     return await prisma.comida.create({
-        data: user
+        data: comida
     })
 }
 
@@ -66,7 +66,7 @@ const edit = async (comida) => {
         where: {
             id: comida.id
         },
-        data: user
+        data: comida
     })
 }
 

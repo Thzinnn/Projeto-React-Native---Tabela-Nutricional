@@ -8,12 +8,12 @@ datasource db {
 }
 
 model comida {
-  nome               String @db.Text
-  calorias           Int
-  gorduras_saturadas Int    @map("gorduras-saturadas")
-  gorduras_trans     Int    @map("gorduras-trans")
-  carboidratos       Int
-  proteinas          Int
-  sodio              Int
-  id                 Int    @id @default(autoincrement())
+  nome               String  @db.Text
+  calorias           Decimal @db.Decimal(10, 2)
+  gorduras_saturadas Decimal @map("gorduras-saturadas") @db.Decimal(10, 2)
+  gorduras_trans     Decimal @map("gorduras-trans") @db.Decimal(10, 2)
+  carboidratos       Decimal @db.Decimal(10, 2)
+  proteinas          Decimal @db.Decimal(10, 2)
+  sodio              Decimal @db.Decimal(10, 2)
+  id                 Int     @id @default(autoincrement())
 }

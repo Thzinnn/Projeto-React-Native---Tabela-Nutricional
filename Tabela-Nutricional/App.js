@@ -4,6 +4,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StyleSheet, Text, View, Image, ImageBackground} from 'react-native';
 import Home from './Screen/Home'
+import CadastrarComida from './Screen/CadastrarComida'
+import ListComida from './Screen/ListComida'
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -13,8 +15,30 @@ const MainNavigator = () => {
   return(
     <Stack.Navigator>
       <Stack.Screen
-        name="Nutricional Table"
+        name="Home"
         component={Home}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name='Cadastrar Comida'
+        component={CadastrarComida}
+        options={{
+          headerShown: false
+        }}
+      />
+
+    </Stack.Navigator>
+  )
+}
+
+const ListaComida = () => {
+  return(
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Lista de Comida"
+        component={ListComida}
         options={{
           headerShown: false
         }}
@@ -35,6 +59,13 @@ export default function App() {
     <Tab.Screen
       name="Home"
       component={MainNavigator}
+      options={{
+        headerShown: false
+      }}
+    />
+    <Tab.Screen
+      name="Lista Comida"
+      component={ListaComida}
       options={{
         headerShown: false
       }}

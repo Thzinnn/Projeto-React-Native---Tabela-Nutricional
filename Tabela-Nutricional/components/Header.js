@@ -1,14 +1,20 @@
-import { StyleSheet, Text, View, Image } from 'react-native';
-
+import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
+import { useNavigation} from '@react-navigation/native'
 
 const Header = () => {
+  const navigation = useNavigation()
+
     return (
+      
+
             <View style={styles.header}>
                 <View style={styles.flex_header}>
+                <Pressable onPress={() => navigation.navigate('Home')}>
                 <Image
                     style={styles.imagem}
                     source='https://icones.pro/wp-content/uploads/2021/04/icone-de-nourriture-jaune-symbole-png.png'
                 />
+                </Pressable>
                     <Text style={styles.texto_header}>Nutricional Table</Text>
                 </View>
             </View>
