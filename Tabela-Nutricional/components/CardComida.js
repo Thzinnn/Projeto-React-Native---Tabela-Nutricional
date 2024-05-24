@@ -1,9 +1,32 @@
-import {Text, View, StyleSheet, Pressable} from 'react-native'
+import {Text, View, StyleSheet, Pressable, Button} from 'react-native'
 import { useNavigation } from '@react-navigation/native'
+import ButtonList from './ButtonList'
 
 const CardComida = ({comida}) => {
 
   const navigation = useNavigation()
+
+    const removeComida = async () =>{
+      try{
+        
+        const result = await fetch('http://localhost:4444/comida/'+comida.id, {
+          method: "DELETE",
+          headers:{
+            "Content-Type": "application/json"
+          }
+        })
+        const data = await result.json()
+        console.log(data)
+        if(data?.success){
+          navigation.goBack()
+        } else {
+          alert(data.error)
+        }
+      } catch (error){
+        console.log('Error removeComida ' + error.message)
+        alert(error.message)
+      }
+    } 
 
   return (
 
@@ -12,13 +35,23 @@ const CardComida = ({comida}) => {
     <Pressable >
         <View style={styles.card}>
             <View>
-                <Text style={styles.email}>{comida.nome}</Text>
-                <Text style={styles.email}>{comida.calorias}</Text>
-                <Text style={styles.email}>{comida.carboidrato}</Text>
-                <Text style={styles.email}>{comida.gorduras_saturadas}</Text>
-                <Text style={styles.email}>{comida.gorduras_trans}</Text>
-                <Text style={styles.email}>{comida.proteinas}</Text>
-                <Text style={styles.email}>{comida.sodio}</Text>
+                <Text style={styles.email}>Nome:   {comida.nome}</Text>
+                <Text style={styles.email}>Calorias:   {comida.calorias}</Text>
+                <Text style={styles.email}>Carboidratos:   {comida.carboidratos}</Text>
+                <Text style={styles.email}>Gorduras Saturadas:   {comida.gorduras_saturadas}</Text>
+                <Text style={styles.email}>Groduras Trans:   {comida.gorduras_trans}</Text>
+                <Text style={styles.email}>Proteinas:   {comida.proteinas}</Text>
+                <Text style={styles.email}>Sodio:   {comida.sodio}</Text>
+            </View>
+            <View>
+                <ButtonList style={styles.button}
+                title="Editar Comida"
+                 onPress={() => navigation.navigate('Editar Comida', {comida})}
+                />
+                <ButtonList style={styles.button}
+                title="Remover Comida"
+                onPress={removeComida}
+                />
             </View>
         </View>
     </Pressable>
@@ -28,9 +61,8 @@ const CardComida = ({comida}) => {
 const styles = StyleSheet.create({
     card: {
         flexDirection: 'colunm',
-        alignItems: 'center',
-        width: 300,
-        height: 100,
+        width: 370,
+        height: 250,
         backgroundColor: '#F2C159',
         borderRadius: 20,
         marginVertical: 10,
@@ -38,7 +70,16 @@ const styles = StyleSheet.create({
     },
     email: {
         marginTop: 4,
-        color: '#FFF'
+        color: '#FFF',
+        marginHorizontal: 15,
+    },
+    button: {
+        backgroundColor: "#000000",
+        color: "#FFF",
+        width: "50%",
+    },
+    botoes: {
+        justifyContent: "center"
     }
 })
 

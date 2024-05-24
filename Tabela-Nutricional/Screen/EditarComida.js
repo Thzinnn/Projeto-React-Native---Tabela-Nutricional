@@ -1,28 +1,30 @@
 import { useState } from 'react'
 import {View, TextInput, StyleSheet, ScrollView} from 'react-native'
 import Button from '../components/Button'
-import { useNavigation} from '@react-navigation/native'
+import { useNavigation, useRoute} from '@react-navigation/native'
 import Header from '../components/Header'
 
 
-const CadastrarComida = () => {
+const EditarComida = () => {
+    const route = useRoute()
     const navigation = useNavigation()
 
-    const [txtNome, setTxtNome] = useState('')
-    const [numCalorias, setNumCalorias] = useState('')
-    const [numGor_Sat, setNumGor_Sat] = useState('')
-    const [numGor_Trns, setNumGor_Trns] = useState('')
-    const [numCarboidratos, setNumCarboidratos] = useState('')
-    const [numProteinas, setNumProteinas] = useState('')
-    const [numSodio, setNumSodio] = useState('')
+    const {comida} = route.params
 
-    const postComida = async () =>{
+    const [txtNome, setTxtNome] = useState(comida.nome)
+    const [numCalorias, setNumCalorias] = useState(comida.calorias)
+    const [numGor_Sat, setNumGor_Sat] = useState(comida.gorduras_saturadas)
+    const [numGor_Trns, setNumGor_Trns] = useState(comida.gorduras_trans)
+    const [numCarboidratos, setNumCarboidratos] = useState(comida.carboidratos)
+    const [numProteinas, setNumProteinas] = useState(comida.proteinas)
+    const [numSodio, setNumSodio] = useState(comida.sodio)
+
+    const editComida = async () =>{
         try{
           //const result = await fetch('https://backend-api-express-1sem2024-rbd1.onrender.com/user', {
 
-          console.log(numGor_Sat)
-          const result = await fetch('http://localhost:4444/comida', {
-            method: "POST",
+          const result = await fetch('http://localhost:4444/comida/'+comida.id, {
+            method: "PUT",
             headers:{
               "Content-Type": "application/json"
             },
@@ -43,7 +45,7 @@ const CadastrarComida = () => {
             alert(data.error)
           }
         } catch (error){
-          console.log('Error postComida ' + error.message)
+          console.log('Error editComida ' + error.message)
           alert(error.message)
         }
       } 
@@ -97,12 +99,12 @@ const CadastrarComida = () => {
                 value={numSodio}
                 />
                 <Button 
-                    title="Cadastrar Comida"
-                    onPress={postComida}
+                    title="Editar Comida"
+                    onPress={editComida}
                 />
                 <Button 
                     title="Voltar"
-                    onPress={() => navigation.navigate('Home')}
+                    onPress={() => navigation.navigate('Lista de Comida')}
                 />
             </View>
         </ScrollView>
@@ -125,4 +127,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default CadastrarComida
+export default EditarComida

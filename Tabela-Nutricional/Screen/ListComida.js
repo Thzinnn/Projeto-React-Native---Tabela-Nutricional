@@ -39,13 +39,16 @@ const ListComida = () => {
         </View>
         
         <View style={styles.listComida}>
+          {comidas.length ?
               <FlatList
                 style={{width: '100%'}}
                 data={comidas}
                 renderItem={({item}) => <CardComida comida={item} />}
                 keyExtractor={item => item.id}
                 contentContainerStyle={styles.flatListComida}
-              />
+              /> :
+              <Text style={{color: '#F2C159'}}>Loading...</Text>
+          }
         </View>
     </View>
   )

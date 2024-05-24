@@ -6,6 +6,7 @@ import { StyleSheet, Text, View, Image, ImageBackground} from 'react-native';
 import Home from './Screen/Home'
 import CadastrarComida from './Screen/CadastrarComida'
 import ListComida from './Screen/ListComida'
+import EditarComida from './Screen/EditarComida';
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -39,6 +40,14 @@ const ListaComida = () => {
       <Stack.Screen
         name="Lista de Comida"
         component={ListComida}
+        options={{
+          headerShown: false
+        }}
+      />
+
+<Stack.Screen
+        name="Editar Comida"
+        component={EditarComida}
         options={{
           headerShown: false
         }}

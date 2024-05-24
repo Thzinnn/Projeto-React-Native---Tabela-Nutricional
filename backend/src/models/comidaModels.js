@@ -70,4 +70,12 @@ const edit = async (comida) => {
     })
 }
 
-export default {getAll, getById, create, edit}
+const remove = async (id) => {
+    return await prisma.comida.delete({
+        where: {
+            id
+        },
+    })
+}
+
+export default {getAll, getById, create, edit, remove}
