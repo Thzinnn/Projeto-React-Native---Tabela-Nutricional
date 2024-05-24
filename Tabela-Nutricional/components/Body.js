@@ -25,7 +25,7 @@ const Body = () => {
                     </View>
                 </Pressable>
 
-                <Pressable>
+                <Pressable onPress={() => navigation.navigate('Cadastrar Refeição')}>
                     <View style={styles.card}>
                         <View style={styles.comida}>
                             <Image

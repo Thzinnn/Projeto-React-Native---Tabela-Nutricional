@@ -7,6 +7,7 @@ import Home from './Screen/Home'
 import CadastrarComida from './Screen/CadastrarComida'
 import ListComida from './Screen/ListComida'
 import EditarComida from './Screen/EditarComida';
+import CadastrarRefeicao from './Screen/CadastroRefeicao';
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -25,6 +26,14 @@ const MainNavigator = () => {
       <Stack.Screen
         name='Cadastrar Comida'
         component={CadastrarComida}
+        options={{
+          headerShown: false
+        }}
+      />
+
+        <Stack.Screen
+        name='Cadastrar Refeição'
+        component={CadastrarRefeicao}
         options={{
           headerShown: false
         }}

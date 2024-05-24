@@ -1,128 +1,99 @@
-import { useState } from 'react'
-import {View, TextInput, StyleSheet, ScrollView} from 'react-native'
-import Button from '../components/Button'
-import { useNavigation} from '@react-navigation/native'
-import Header from '../components/Header'
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Picker } from 'react-native';
+import Header from '../components/Header';
+import Button from '../components/Button';
 
+const App = () => {
+  const [dropdownCount, setDropdownCount] = useState(0);
+  const [options, setOptions] = useState([
+    { label: 'Opção 1', value: 'option1' },
+    { label: 'Opção 2', value: 'option2' },
+    { label: 'Opção 3', value: 'option3' },
+  ]);
+  const [options2, setOptions2] = useState([
+    { label: '100 gramas', value: '1' },
+    { label: '200 gramas', value: '2' },
+    { label: '300 gramas', value: '3' },
+    { label: '400 gramas', value: '4' },
+    { label: '500 gramas', value: '5' },
+    { label: '600 gramas', value: '6' },
+    { label: '700 gramas', value: '7' },
+    { label: '800 gramas', value: '8' },
+    { label: '900 gramas', value: '9' },
+    { label: '1 kg', value: '10' },
+  ]);
+  const [dropdownComponents, setDropdownComponents] = useState([]); // State to store dropdown components
 
-const CadastrarComida = () => {
-    const navigation = useNavigation()
+  const addDropdown = () => {
+    const newDropdown = (
+      <View key={dropdownCount} style={styles.dropdownContainer}>
+        <Picker
+          selectedValue={null}
+          onValueChange={() => {}}
+          style={styles.dropdown}
+          itemStyle={{
+            backgroundColor: '#FFF',
+            color: '#ffffff',
+            padding: 10,
+            borderRadius: 10,
+          }}
+        >
+          
+          {options.map((option) => (
+            <Picker.Item label={option.label} value={option.value} key={option.value} />
+          ))}
+        </Picker>
+        <Picker
+          selectedValue={null}
+          onValueChange={() => {}}
+          style={styles.dropdown}
+          itemStyle={{
+            backgroundColor: '#FFF',
+            color: '#ffffff',
+            padding: 10,
+            borderRadius: 10,
+          }}
+        >
+          {options2.map((option) => (
+            <Picker.Item label={option.label} value={option.value} key={option.value} />
+          ))}
+        </Picker>
+      </View>
+    );
+    setDropdownCount(dropdownCount + 1);
+    setOptions([...options, { label: `Opção ${dropdownCount + 1}`, value: `option${dropdownCount + 1}` }]);
+    setOptions2([...options2, { label: `Opção ${dropdownCount + 1}`, value: `option${dropdownCount + 1}` }]);
+    setDropdownComponents([...dropdownComponents, newDropdown]);
+  };
 
-    const [txtNome, setTxtNome] = useState('')
-    const [numCalorias, setNumCalorias] = useState('')
-    const [numGor_Sat, setNumGor_Sat] = useState('')
-    const [numGor_Trns, setNumGor_Trns] = useState('')
-    const [numCarboidratos, setNumCarboidratos] = useState('')
-    const [numProteinas, setNumProteinas] = useState('')
-    const [numSodio, setNumSodio] = useState('')
-
-    const postComida = async () =>{
-        try{
-          //const result = await fetch('https://backend-api-express-1sem2024-rbd1.onrender.com/user', {
-
-          console.log(numGor_Sat)
-          const result = await fetch('http://localhost:4444/comida', {
-            method: "POST",
-            headers:{
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({nome: txtNome,
-                calorias: numCalorias,
-                gorduras_saturadas: numGor_Sat,
-                gorduras_trans: numGor_Trns,
-                carboidratos: numCarboidratos,
-                proteinas: numProteinas,
-                sodio: numSodio
-                })
-          })
-          const data = await result.json()
-          console.log(data)
-          if(data?.success){
-            navigation.goBack()
-          } else {
-            alert(data.error)
-          }
-        } catch (error){
-          console.log('Error postComida ' + error.message)
-          alert(error.message)
-        }
-      } 
-
-    return (
-        <ScrollView>
-          <Header/>
-
-
-            <View style={styles.form}>
-                <TextInput 
-                style={styles.input}
-                placeholder='Nome'
-                onChangeText={setTxtNome}
-                value={txtNome}
-                />
-                <TextInput 
-                style={styles.input}
-                placeholder='Calorias'
-                onChangeText={setNumCalorias}
-                value={numCalorias}
-                />
-                <TextInput 
-                style={styles.input}
-                placeholder='Gorduras Saturadas em gramas'
-                onChangeText={setNumGor_Sat}
-                value={numGor_Sat}
-                />
-                <TextInput 
-                style={styles.input}
-                placeholder='Gorduras Trans em gramas'
-                onChangeText={setNumGor_Trns}
-                value={numGor_Trns}
-                />
-                <TextInput 
-                style={styles.input}
-                placeholder='Carboidratos em gramas'
-                onChangeText={setNumCarboidratos}
-                value={numCarboidratos}
-                />
-                <TextInput 
-                style={styles.input}
-                placeholder='Proteinhas em gramas'
-                onChangeText={setNumProteinas}
-                value={numProteinas}
-                />
-                <TextInput 
-                style={styles.input}
-                placeholder='Sodio em miligramas'
-                onChangeText={setNumSodio}
-                value={numSodio}
-                />
-                <Button 
-                    title="Cadastrar Comida"
-                    onPress={postComida}
-                />
-                <Button 
-                    title="Voltar"
-                    onPress={() => navigation.navigate('Home')}
-                />
-            </View>
-        </ScrollView>
-    )
-}
+  return (
+    <View style={styles.container}>
+      <Header/>
+      {dropdownComponents}
+      <Button title="Adicionar Comida" onPress={addDropdown} />
+      <Button title="Cadastrar Refeição" />
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-    form: {
-        display: 'flex',
-        padding: 40
-    },
-    input: {
-        height: 40,
-        width: '100%',
-        backgroundColor: '#FFF',
-        borderWidth: 1,
-        marginBottom: 18,
-        borderRadius: 15,
-        padding: 10,
-    }
-})
+  container: {
+    flex: 1,
+  },
+  dropdownContainer: {
+    marginBottom: 10,
+    marginLeft: '15%',
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: 10,
+  },
+  dropdown: {
+    backgroundColor: '#FFF',
+    width: '80%',
+    height: 40,
+    borderRadius: 15,
+    marginBottom: 5,
+  },
+});
 
-export default CadastrarComida
+export default App;
