@@ -1,4 +1,5 @@
 import comidaModels from "../../models/comidaModels.js";
+import zodErrorFormat from "../../helpers/zodErrorFormat.js"
 
 const create = async (req, res) => {
   try {
@@ -16,11 +17,20 @@ const create = async (req, res) => {
     }
 
     console.log(req.body);
+
+    const result = comidaModels.validateComidaToCreate(req.body)
+
+    if(!result.success){
+      return res.status(400).json({
+          error: `Dados de Cadastro Inválido`,
+          fields: zodErrorFormat(result.error)
+      })
+    }
    
-    const result = await comidaModels.create(req.body);
+    const novaComida = await comidaModels.create(req.body);
     return res.json({
-      sucess: `Comida ${result.nome} criada com sucesso!`,
-      comida: result,
+      sucess: `Comida ${novaComida.nome} criada com sucesso!`,
+      comida: novaComida,
     });
   } catch (error) {
     console.log(error);

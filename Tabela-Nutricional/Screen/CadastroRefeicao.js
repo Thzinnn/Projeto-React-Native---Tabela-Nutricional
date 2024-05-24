@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Picker } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Picker, TextInput } from 'react-native';
 import Header from '../components/Header';
 import Button from '../components/Button';
 
 const App = () => {
+
+
+  const [comidas, setComidas] = useState([])
   const [dropdownCount, setDropdownCount] = useState(0);
-  const [options, setOptions] = useState([
-    { label: 'Opção 1', value: 'option1' },
-    { label: 'Opção 2', value: 'option2' },
-    { label: 'Opção 3', value: 'option3' },
-  ]);
-  const [options2, setOptions2] = useState([
+  const [options, setOptions] = useState([]);
+  const [txtNome, setTxtNome] = useState('')
+  const [dropdownComponents, setDropdownComponents] = useState([]); // State to store dropdown components
+  const options2 = [
     { label: '100 gramas', value: '1' },
     { label: '200 gramas', value: '2' },
     { label: '300 gramas', value: '3' },
@@ -21,14 +22,61 @@ const App = () => {
     { label: '800 gramas', value: '8' },
     { label: '900 gramas', value: '9' },
     { label: '1 kg', value: '10' },
-  ]);
-  const [dropdownComponents, setDropdownComponents] = useState([]); // State to store dropdown components
+  ];
 
+  const getComida = async () => {
+    try {
+      const result = await fetch('http://localhost:4444/comida');
+      const data = await result.json();
+      console.log(data);
+      setComidas(data.comidas);
+  
+      const options = data.comidas.map((comida) => ({
+        label: comida.nome,
+        value: comida.id,
+      }));
+      console.log('options result', options);
+      setOptions(options);
+    } catch (error) {
+      console.error('Error getComidas', error.message);
+    }
+  };
+
+  const postRefeicao = async () =>{
+    try{
+      //const result = await fetch('https://backend-api-express-1sem2024-rbd1.onrender.com/user', {
+
+      console.log(numGor_Sat)
+      const result = await fetch('http://localhost:4444/refeicao', {
+        method: "POST",
+        headers:{
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({nome: txtNome})
+      })
+      const data = await result.json()
+      console.log(data)
+      if(data?.success){
+        navigation.goBack()
+      } else {
+        alert(data.error)
+      }
+    } catch (error){
+      console.log('Error postRefeicao' + error.message)
+      alert(error.message)
+    }
+  } 
+ 
+
+  useEffect(()=>{
+    getComida()
+  },[])
+
+  
   const addDropdown = () => {
     const newDropdown = (
       <View key={dropdownCount} style={styles.dropdownContainer}>
         <Picker
-          selectedValue={null}
           onValueChange={() => {}}
           style={styles.dropdown}
           itemStyle={{
@@ -44,7 +92,6 @@ const App = () => {
           ))}
         </Picker>
         <Picker
-          selectedValue={null}
           onValueChange={() => {}}
           style={styles.dropdown}
           itemStyle={{
@@ -61,14 +108,18 @@ const App = () => {
       </View>
     );
     setDropdownCount(dropdownCount + 1);
-    setOptions([...options, { label: `Opção ${dropdownCount + 1}`, value: `option${dropdownCount + 1}` }]);
-    setOptions2([...options2, { label: `Opção ${dropdownCount + 1}`, value: `option${dropdownCount + 1}` }]);
     setDropdownComponents([...dropdownComponents, newDropdown]);
   };
 
   return (
     <View style={styles.container}>
       <Header/>
+      <TextInput 
+          style={styles.input}
+          placeholder='Nome'
+          onChangeText={setTxtNome}
+          value={txtNome}
+      />
       {dropdownComponents}
       <Button title="Adicionar Comida" onPress={addDropdown} />
       <Button title="Cadastrar Refeição" />
@@ -94,6 +145,16 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginBottom: 5,
   },
+  input: {
+    height: 40,
+    width: '100%',
+    backgroundColor: '#FFF',
+    borderWidth: 1,
+    marginBottom: 18,
+    borderRadius: 15,
+    padding: 10,
+    marginTop: 20,  
+}
 });
 
 export default App;

@@ -36,12 +36,12 @@ const CardComida = ({comida}) => {
         <View style={styles.card}>
             <View>
                 <Text style={styles.email}>Nome:   {comida.nome}</Text>
-                <Text style={styles.email}>Calorias:   {comida.calorias}</Text>
-                <Text style={styles.email}>Carboidratos:   {comida.carboidratos}</Text>
-                <Text style={styles.email}>Gorduras Saturadas:   {comida.gorduras_saturadas}</Text>
-                <Text style={styles.email}>Groduras Trans:   {comida.gorduras_trans}</Text>
-                <Text style={styles.email}>Proteinas:   {comida.proteinas}</Text>
-                <Text style={styles.email}>Sodio:   {comida.sodio}</Text>
+                <Text style={styles.email}>Calorias:   {comida.calorias} </Text>
+                <Text style={styles.email}>Carboidratos:   {comida.carboidratos} g</Text>
+                <Text style={styles.email}>Gorduras Saturadas:   {comida.gorduras_saturadas} g</Text>
+                <Text style={styles.email}>Groduras Trans:   {comida.gorduras_trans} g</Text>
+                <Text style={styles.email}>Proteinas:   {comida.proteinas} g</Text>
+                <Text style={styles.email}>Sodio:   {comida.sodio} mg</Text>
             </View>
             <View>
                 <ButtonList style={styles.button}
@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
     botoes: {
         justifyContent: "center"
     }
+    
 })
 
 export default CardComida

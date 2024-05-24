@@ -8,12 +8,31 @@ datasource db {
 }
 
 model comida {
-  nome               String  @db.Text
-  calorias           Decimal @db.Decimal(10, 2)
-  gorduras_saturadas Decimal @map("gorduras-saturadas") @db.Decimal(10, 2)
-  gorduras_trans     Decimal @map("gorduras-trans") @db.Decimal(10, 2)
-  carboidratos       Decimal @db.Decimal(10, 2)
-  proteinas          Decimal @db.Decimal(10, 2)
-  sodio              Decimal @db.Decimal(10, 2)
-  id                 Int     @id @default(autoincrement())
+  nome                String                @db.Text
+  calorias            Decimal               @db.Decimal(10, 2)
+  gorduras_saturadas  Decimal               @map("gorduras-saturadas") @db.Decimal(10, 2)
+  gorduras_trans      Decimal               @map("gorduras-trans") @db.Decimal(10, 2)
+  carboidratos        Decimal               @db.Decimal(10, 2)
+  proteinas           Decimal               @db.Decimal(10, 2)
+  sodio               Decimal               @db.Decimal(10, 2)
+  id                  Int                   @id @default(autoincrement())
+  comida_has_refeicao comida_has_refeicao[]
+}
+
+model comida_has_refeicao {
+  id                  Int      @default(autoincrement())
+  comida_id           Int
+  refeicao_idrefeicao Int
+  comida              comida   @relation(fields: [comida_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_comida_has_refeicao_comida")
+  refeicao            refeicao @relation(fields: [refeicao_idrefeicao], references: [idrefeicao], onDelete: NoAction, onUpdate: NoAction, map: "fk_comida_has_refeicao_refeicao1")
+
+  @@id([id, comida_id, refeicao_idrefeicao])
+  @@index([comida_id], map: "fk_comida_has_refeicao_comida_idx")
+  @@index([refeicao_idrefeicao], map: "fk_comida_has_refeicao_refeicao1_idx")
+}
+
+model refeicao {
+  idrefeicao          Int                   @id @default(autoincrement())
+  nome                String?               @db.VarChar(45)
+  comida_has_refeicao comida_has_refeicao[]
 }

@@ -1,12 +1,12 @@
-import comidaModels from "../../models/comidaModels.js";
+import refeicaoModels from "../../models/refeicaoModels.js";
 import zodErrorFormat from "../../helpers/zodErrorFormat.js"
 
 const edit = async (req, res) => {
     try {
         const id = +req.params.id
-        const comida = req.body
+        const refeicao = req.body
 
-        const result = await comidaModels.validateComidaToUpdate(comida)
+        const result = await refeicaoModels.validaterefeicaoToUpdate(refeicao)
         if(!result.success){
             return res.status(400).json({
                 error: `Dados de Atualização Inválido`,
@@ -14,10 +14,10 @@ const edit = async (req, res) => {
             })
         }
 
-        const ComidaEditada = await comidaModels.edit({id, ...comida})
+        const refeicaoEditada = await refeicaoModels.edit({id, ...refeicao})
         return res.json({
-            sucess: `Comidas ${ComidaEditada.nome} listadas com sucesso!`,
-            comida: ComidaEditada
+            sucess: `Refeição ${refeicaoEditada.nome} editada com sucesso!`,
+            refeicao: refeicaoEditada
         })
     } catch (error) {
         console.log(error)
