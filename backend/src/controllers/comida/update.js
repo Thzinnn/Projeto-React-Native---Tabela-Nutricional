@@ -6,7 +6,7 @@ const edit = async (req, res) => {
         const id = +req.params.id
         const comida = req.body
 
-        const result = await comidaModels.validateComidaToUpdate(comida)
+        const result = comidaModels.validateComidaToUpdate(comida)
         if(!result.success){
             return res.status(400).json({
                 error: `Dados de Atualização Inválido`,

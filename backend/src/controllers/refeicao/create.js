@@ -2,10 +2,12 @@ import refeicaoModels from "../../models/refeicaoModels.js";
 import zodErrorFormat from "../../helpers/zodErrorFormat.js"
 
 const create = async (req, res) => {
-    try {
+    try { 
 
-      const result = refeicaoModels.validaterefeicaoToCreate(req.body)
-  
+      const refeicao = req.body
+
+      const result = refeicaoModels.validateRefeicaoToCreate(refeicao)
+      console.log(result)
       if(!result.success){
         return res.status(400).json({
             error: `Dados de Cadastro Inválido`,
@@ -13,7 +15,7 @@ const create = async (req, res) => {
         })
       }
      
-      const novaRefeicao = await refeicaoModels.create(req.body);
+      const novaRefeicao = await refeicaoModels.create(refeicao);
       return res.json({
         sucess: `Refeição ${novaRefeicao.nome} criada com sucesso!`,
         refeicao: novaRefeicao,
@@ -27,4 +29,3 @@ const create = async (req, res) => {
   };
   
   export default create;
-  

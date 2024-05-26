@@ -7,7 +7,7 @@ import cors from 'cors'
 const app = express()
 
 app.use(cors({
-    origin: ['http://localhost:3000', 'http://localhost:8081', 'http://meusite.com'],
+    origin: ['http://localhost:4444', 'http://localhost:8081', 'http://meusite.com'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
   }))

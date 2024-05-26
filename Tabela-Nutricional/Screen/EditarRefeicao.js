@@ -1,37 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Picker, TextInput } from 'react-native';
 import Header from '../components/Header';
-import { useNavigation} from '@react-navigation/native'
+import { useNavigation, useRoute} from '@react-navigation/native'
 import Button from '../components/Button';
 
-const CadastroRefeicao = () => {
+const EditarRefeicao = () => {
 
-
+    const route = useRoute()
     const navigation = useNavigation()
-    const [txtNome, setTxtNome] = useState('')
 
-  const postRefeicao = async () =>{
-    try{
-      //const result = await fetch('https://backend-api-express-1sem2024-rbd1.onrender.com/user', {
+    const {refeicao} = route.params
 
-      const result = await fetch('http://localhost:4444/refeicao', {
-        method: "POST",
+    const [txtNome, setTxtNome] = useState(refeicao.nome)
+
+    const editRefeicao = async () =>{
+        try{
+          //const result = await fetch('https://backend-api-express-1sem2024-rbd1.onrender.com/user', {
+
+          const result = await fetch('http://localhost:4444/refeicao/'+refeicao.id, {
+            method: "PUT",
             headers:{
               "Content-Type": "application/json"
             },
-        body: JSON.stringify({nome: txtNome})
-      })
-      const data = await result.json()
-      console.log(data)
-      if(data?.success){
-        navigation.goBack()
-      } else {
-        alert(data.error)
-      }
-    } catch (error){
-      console.log('Error postRefeicao' + error.message)
-      alert(error.message)
-    }
+            body: JSON.stringify({nome: txtNome})
+          })
+          const data = await result.json()
+          console.log(data)
+          if(data?.success){
+            navigation.goBack()
+          } else {
+            alert(data.error)
+          }
+        } catch (error){
+          console.log('Error editRefeicao ' + error.message)
+          alert(error.message)
+        }
+      
   } 
   return (
     <View style={styles.container}>
@@ -42,11 +46,11 @@ const CadastroRefeicao = () => {
           onChangeText={setTxtNome}
           value={txtNome}
       />
-      <Button title="Cadastrar Refeição" onPress={postRefeicao} />
+      <Button title="Editar Refeição" onPress={editRefeicao} />
       <Button 
-                    title="Voltar"
-                    onPress={() => navigation.navigate('Home')}
-                />
+        title="Voltar"
+        onPress={() => navigation.navigate('Lista de Refeição')}
+        />
     </View>
   );
 };
@@ -81,4 +85,4 @@ const styles = StyleSheet.create({
 }
 });
 
-export default CadastroRefeicao;
+export default EditarRefeicao;

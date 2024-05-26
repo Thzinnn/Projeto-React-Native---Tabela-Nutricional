@@ -8,6 +8,8 @@ import CadastrarComida from './Screen/CadastrarComida'
 import ListComida from './Screen/ListComida'
 import EditarComida from './Screen/EditarComida';
 import CadastrarRefeicao from './Screen/CadastroRefeicao';
+import listRefeicao from './Screen/ListRefeicao';
+import EditarRefeicao from './Screen/EditarRefeicao';
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -66,6 +68,29 @@ const ListaComida = () => {
   )
 }
 
+const ListaRefeicao = () => {
+  return(
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Lista de Refeição"
+        component={listRefeicao}
+        options={{
+          headerShown: false
+        }}
+      />
+
+<Stack.Screen
+        name="Editar Refeição"
+        component={EditarRefeicao}
+        options={{
+          headerShown: false
+        }}
+      />
+
+    </Stack.Navigator>
+  )
+}
+
 export default function App() {
   return (
     <NavigationContainer>
@@ -84,6 +109,13 @@ export default function App() {
     <Tab.Screen
       name="Lista Comida"
       component={ListaComida}
+      options={{
+        headerShown: false
+      }}
+    />
+    <Tab.Screen
+      name="Lista Refeição"
+      component={ListaRefeicao}
       options={{
         headerShown: false
       }}

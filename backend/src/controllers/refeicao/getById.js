@@ -4,6 +4,7 @@ const getById = async (req, res) => {
     try {
         const id = req.params.id
 
+        
         const result = await refeicaoModels.getById(+id)
         return res.json({
             sucess: `Refeição ${id} encontrada com sucesso!`,

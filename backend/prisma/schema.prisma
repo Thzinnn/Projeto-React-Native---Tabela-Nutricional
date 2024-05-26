@@ -20,19 +20,19 @@ model comida {
 }
 
 model comida_has_refeicao {
-  id                  Int      @default(autoincrement())
-  comida_id           Int
-  refeicao_idrefeicao Int
-  comida              comida   @relation(fields: [comida_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_comida_has_refeicao_comida")
-  refeicao            refeicao @relation(fields: [refeicao_idrefeicao], references: [idrefeicao], onDelete: NoAction, onUpdate: NoAction, map: "fk_comida_has_refeicao_refeicao1")
+  id          Int      @default(autoincrement())
+  comida_id   Int
+  refeicao_id Int
+  comida      comida   @relation(fields: [comida_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_comida_has_refeicao_comida")
+  refeicao    refeicao @relation(fields: [refeicao_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_comida_has_refeicao_refeicao1")
 
-  @@id([id, comida_id, refeicao_idrefeicao])
+  @@id([id, comida_id, refeicao_id])
   @@index([comida_id], map: "fk_comida_has_refeicao_comida_idx")
-  @@index([refeicao_idrefeicao], map: "fk_comida_has_refeicao_refeicao1_idx")
+  @@index([refeicao_id], map: "fk_comida_has_refeicao_refeicao1_idx")
 }
 
 model refeicao {
-  idrefeicao          Int                   @id @default(autoincrement())
-  nome                String?               @db.VarChar(45)
+  id                  Int                   @id @default(autoincrement())
+  nome                String?               @db.Text
   comida_has_refeicao comida_has_refeicao[]
 }

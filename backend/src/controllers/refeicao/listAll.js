@@ -5,7 +5,7 @@ const listAll = async (req, res) => {
         const result = await refeicaoModels.getAll()
         return res.json({
             sucess: `Refeições listadas com sucesso!`,
-            refeicaos: result
+            refeicoes: result
         })
     } catch (error) {
         console.log(error)
